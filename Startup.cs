@@ -24,6 +24,7 @@ namespace AddressbookServer
             services.AddControllersWithViews();
             var dataConnectionString = Configuration.GetConnectionString("dataConnectionString");
 
+            services.AddCors(x => x.AddPolicy("CorsPolicy", x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
             services.AddScoped<IBaseProvider<EntryModel>, EntryProvider>();
             services.AddDbContext<Data.DataContext>(o => o.UseSqlServer(dataConnectionString));
         }
@@ -43,6 +44,7 @@ namespace AddressbookServer
 
             app.UseRouting();
 
+            app.UseCors("CorsPolicy");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
