@@ -8,14 +8,18 @@ type UserType = {
 
 type UsersType = {
   data: UserType[];
+  onDelete: (id: string) => void;
 };
 
-export const UsersList: React.FC<UsersType> = ({ data }: UsersType) => {
+export const UsersList: React.FC<UsersType> = ({
+  data,
+  onDelete,
+}: UsersType) => {
   return (
     <ul>
       {data.map((user) => (
         <div>
-          <li key={user.id} onClick={() => {}}>
+          <li key={user.id} onClick={() => onDelete(user.id)}>
             <span>{user.name}</span>
             <span>{user.phoneNumber}</span>
           </li>
