@@ -31,6 +31,23 @@ namespace AddressbookServer.Controllers
         {
             return new JsonResult(new JsonReturnData(true, await entries.GetById(id)));
         }
-                
+
+        [HttpPost]
+        public async Task<JsonResult> SaveEntry([FromBody] EntryModel toSave)
+        {
+            if (toSave.Id == Guid.Empty)
+                await entries.Add(toSave);
+            else await entries.Update(toSave);
+
+            return new JsonResult(new JsonReturnData(true, "Entry saved!"));
+        }
+
+        [HttpDelete("{id:Guid}")]
+        public JsonResult DeleteEntry(Guid id)
+        {
+            entries.DeleteById(id);
+            return new JsonResult(new JsonReturnData(true, "Entry deleted!"));
+        }
+
     }
 }
